@@ -42,6 +42,9 @@
 build/
 Build/
 build-*/
+bin/
+lib/
+out/
 
 # CMake generated files
 CMakeFiles/
@@ -51,18 +54,43 @@ Makefile
 install_manifest.txt
 compile_commands.json
 
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Other IDEs & Editors (CLion, Visual Studio, Xcode)
+.idea/
+*.user
+*.suo
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.xcodeproj/
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+ehthumbs.db
+Thumbs.db
+
 # Temporary files
 *.tmp
 *.log
 *.bak
 *.swp
+*~
 
-# vcpkg
+# vcpkg & Dependency Managers
 vcpkg_installed/
+.conan/
 
-# debug information files
+# Debug information files
 *.dwo
 
-# test output & cache
+# Test output & cache
 Testing/
 .cache/
