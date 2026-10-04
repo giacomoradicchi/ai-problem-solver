@@ -1,35 +1,47 @@
 cmake_minimum_required(VERSION 3.20)
-project(ai-problem-solver CXX)
+project(AIMA_Search_Framework CXX)
 
-# Enforce C++20 standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Redirect output executables and libraries to the root /bin directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-# Include the header files directory (.hpp)
-include_directories(include)
-
-# Register the core framework source files (.cpp)
-set(FRAMEWORK_SOURCES
-    src/Node.cpp
-    src/State.cpp
-    src/Solver.cpp
-)
-
-# Demo executable for framework testing
-add_executable(8_puzzle_demo 
-    tests/8_puzzle_main.cpp 
-    ${FRAMEWORK_SOURCES}
-)
-
-# Compilation flags for capturing warnings and errors
+# Compiler warning flags
 if(MSVC)
-    target_compile_options(8_puzzle_demo PRIVATE /W4 /permissive-)
+    add_compile_options(/W4)
 else()
-    target_compile_options(8_puzzle_demo PRIVATE -Wall -Wextra -Wpedantic)
+    add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+
+# Output directory for compiled binaries
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+# ------------------------------------------------------------------------------
+# 1. FRAMEWORK CORE LIBRARY (Generic AI Search Engine)
+# ------------------------------------------------------------------------------
+add_library(search_framework STATIC
+    framework/src/State.cpp
+    framework/src/Node.cpp
+    framework/src/Problem.cpp
+    framework/src/Solver.cpp
+)
+
+target_include_directories(search_framework PUBLIC
+    framework/include
+)
+
+# ------------------------------------------------------------------------------
+# 2. CONCRETE PROBLEMS (Problem Domains)
+# ------------------------------------------------------------------------------
+
+# 8-Puzzle Domain Executable
+add_executable(8_puzzle_demo
+    problems/8_puzzle/src/EightPuzzleState.cpp
+    problems/8_puzzle/src/EightPuzzleProblem.cpp
+    problems/8_puzzle/main.cpp
+)
+
+target_include_directories(8_puzzle_demo PRIVATE
+    problems/8_puzzle/include
+)
+
+# Link the core search framework to the 8-puzzle target
+target_link_libraries(8_puzzle_demo PRIVATE search_framework)
