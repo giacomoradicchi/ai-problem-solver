@@ -8,7 +8,17 @@
 #include <functional>
 
 class Solver {
+    private:
+        // Checks if the node form a cycle of length k or less 
+        [[nodiscard]] bool is_cycle(const std::shared_ptr<Node>& node, int k = 30) const;
+
+        // Auxiliar method for is_cycle(...) one
+        [[nodiscard]] bool find_cycle(const std::shared_ptr<Node>& node, const std::shared_ptr<Node>& ancestor, int k) const;
+
     public:
+        // Solves the problem using best first search, with a custom f(n) function. Returns the solution node or a null pointer if not found. 
+        [[nodiscard]] std::shared_ptr<Node> best_first_search(const std::shared_ptr<Problem>& problem, const std::function<double(const std::shared_ptr<Node>&)>& f, bool graph_search = true);
+
         // Solves the problem using breadth first search (BFS). Returns the solution node or a null pointer if not found. 
         [[nodiscard]] std::shared_ptr<Node> breadth_first_search(const std::shared_ptr<Problem>& problem, bool graph_search = true);
 
