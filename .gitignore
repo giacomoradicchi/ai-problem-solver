@@ -1,3 +1,14 @@
+# Build & Output Directories
+build/
+Build/
+build-*/
+bin/
+lib/
+out/
+
+# macOS Debug Symbols
+*.dSYM/
+
 # Prerequisites
 *.d
 
@@ -38,14 +49,6 @@
 *.out
 *.app
 
-# Build directories
-build/
-Build/
-build-*/
-bin/
-lib/
-out/
-
 # CMake generated files
 CMakeFiles/
 CMakeCache.txt
@@ -54,7 +57,7 @@ Makefile
 install_manifest.txt
 compile_commands.json
 
-# VS Code
+# VS Code (Ignore all internal workspace cache except shared settings/tasks)
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
