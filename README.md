@@ -1,5 +1,33 @@
-# AI Problem Solver 
-An object-oriented C++20 framework for solving classical AI state-space problems using search algorithms (A, BFS, DFS, IDA*) based on Russell &amp; Norvig's AIMA architecture.
+# AI Problem Solver
+
+![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg?style=flat-square&logo=cplusplus)
+[![AIMA Architecture](https://img.shields.io/badge/Architecture-AIMA%204th%20Ed.-orange.svg?style=flat-square)](http://aima.cs.berkeley.edu)
+[![AIMA GitHub](https://img.shields.io/badge/Reference-aimacode-black.svg?style=flat-square&logo=github)](https://github.com/aimacode)
+![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)
+
+An object-oriented, highly performant C++20 framework for solving classical AI state-space problems using state-of-the-art search algorithms. Built upon the architectural principles of **Russell & Norvig's AIMA** (*[Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu)*) and aligned with the implementations in [aimacode](https://github.com/aimacode).
+
+---
+
+## References & Inspiration
+
+- **Official Textbook**: [AIMA - Artificial Intelligence: A Modern Approach (4th Edition)](http://aima.cs.berkeley.edu)
+- **Official Repository**: [aimacode on GitHub](https://github.com/aimacode) — Reference code repositories in Python, Java, and other languages.
+
+---
+
+## Key Features
+
+- **Modern C++20 Design**: Full move semantics, zero-cost abstractions, `[[nodiscard]]`, and explicit resource management with smart pointers (`std::shared_ptr`).
+- **Graph & Tree Search Modes**: Built-in $O(1)$ hash-based state duplicate detection (`Reached` set/map) for graph search, prevent memory leaks and infinite loops.
+- **Uninformed & Informed Algorithms**:
+  - **Uninformed**: Breadth-First Search (BFS), Depth-First Search (DFS), Iterative Deepening (IDS), Uniform-Cost Search (UCS).
+  - **Informed / Heuristic**: Best-First Search, A*, Iterative Deepening A* (IDA*), and Bidirectional Search framework.
+- **Type-Safe Domain Abstraction**: Decoupled `State`, `Action`, and `Problem` interfaces allow easy definition of custom domains (e.g., 8-Puzzle, Vacuum World, Grid Navigation).
+
+---
+
+## Architecture Diagram
 
 ```mermaid
 classDiagram
