@@ -18,9 +18,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 # 1. FRAMEWORK CORE LIBRARY (Generic AI Search Engine)
 # ------------------------------------------------------------------------------
 add_library(search_framework STATIC
-    framework/src/State.cpp
     framework/src/Node.cpp
-    framework/src/Problem.cpp
     framework/src/Solver.cpp
 )
 
@@ -33,15 +31,15 @@ target_include_directories(search_framework PUBLIC
 # ------------------------------------------------------------------------------
 
 # 8-Puzzle Domain Executable
-add_executable(8_puzzle_demo
-    problems/8_puzzle/src/EightPuzzleState.cpp
-    problems/8_puzzle/src/EightPuzzleProblem.cpp
-    problems/8_puzzle/main.cpp
+add_executable(puzzle_demo
+    problems/puzzle/src/PuzzleState.cpp
+    problems/puzzle/src/PuzzleProblem.cpp
+    problems/puzzle/main.cpp
 )
 
-target_include_directories(8_puzzle_demo PRIVATE
-    problems/8_puzzle/include
+target_include_directories(puzzle_demo PRIVATE
+    problems/puzzle/include
 )
 
 # Link the core search framework to the 8-puzzle target
-target_link_libraries(8_puzzle_demo PRIVATE search_framework)
+target_link_libraries(puzzle_demo PRIVATE search_framework)

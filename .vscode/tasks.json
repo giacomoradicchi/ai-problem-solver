@@ -1,29 +1,44 @@
 {
+    "version": "2.0.0",
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: clang++ compila il file attivo",
-            "command": "/usr/bin/clang++",
+            "label": "CMake: configure",
+            "type": "shell",
+            "command": "cmake",
             "args": [
-                "-fcolor-diagnostics",
-                "-fansi-escape-codes",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "-S",
+                "${workspaceFolder}",
+                "-B",
+                "${workspaceFolder}/build",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
             ],
-            "options": {
-                "cwd": "${fileDirname}"
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake: build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build"
+            ],
+            "dependsOn": "CMake: configure",
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": "absolute"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "detail": "Attività generata dal debugger."
+            }
+        },
+        {
+            "label": "Run puzzle_demo",
+            "type": "shell",
+            "command": "${workspaceFolder}/bin/puzzle_demo",
+            "dependsOn": "CMake: build",
+            "problemMatcher": []
         }
-    ],
-    "version": "2.0.0"
+    ]
 }
