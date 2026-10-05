@@ -28,16 +28,16 @@ std::vector<std::shared_ptr<Action>> PuzzleProblem::actions(const std::shared_pt
     std::vector<std::shared_ptr<Action>> possible_actions;
 
     if (row > 0) {
-        possible_actions.push_back(std::make_shared<Action>("UP"));
+        possible_actions.push_back(std::make_shared<Action>("↑"));
     }
     if (row < last) {
-        possible_actions.push_back(std::make_shared<Action>("DOWN"));
+        possible_actions.push_back(std::make_shared<Action>("↓"));
     }
     if (col > 0) {
-        possible_actions.push_back(std::make_shared<Action>("LEFT"));
+        possible_actions.push_back(std::make_shared<Action>("←"));
     }
     if (col < last) {
-        possible_actions.push_back(std::make_shared<Action>("RIGHT"));
+        possible_actions.push_back(std::make_shared<Action>("→"));
     }
 
     return possible_actions;
@@ -54,13 +54,13 @@ std::shared_ptr<State> PuzzleProblem::result(const std::shared_ptr<State>& state
     std::size_t new_col = col;
 
     const std::string& name = action->to_string();
-    if (name == "UP") {
+    if (name == "↑") {
         new_row--;
-    } else if (name == "DOWN") {
+    } else if (name == "↓") {
         new_row++;
-    } else if (name == "LEFT") {
+    } else if (name == "←") {
         new_col--;
-    } else if (name == "RIGHT") {
+    } else if (name == "→") {
         new_col++;
     } else {
         throw std::invalid_argument("unknown action: " + name);

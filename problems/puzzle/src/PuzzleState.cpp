@@ -2,9 +2,10 @@
 #include <stdexcept>
 #include <cmath>
 
+#define DEFAULT_PROBLEM_SIZE 8
 #define HASH_PRIME 31 // prime factor for the polynomial hash
 
-PuzzleState::PuzzleState() : PuzzleState(8) {} // calls the other constructor with N = 8
+PuzzleState::PuzzleState() : PuzzleState(DEFAULT_PROBLEM_SIZE) {} // calls the other constructor with N = 8
 
 PuzzleState::PuzzleState(std::size_t n) {
     num_tiles = n;

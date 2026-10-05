@@ -30,6 +30,9 @@ class Node : public std::enable_shared_from_this<Node>{
             : state(std::move(state)), parent(std::move(parent)), action(std::move(action)), path_cost(path_cost), depth(this->parent ? this->parent->get_depth() + 1: 0) // if the parent exists, the depth is the depth of its parent + 1, otherwise it's just 0
         {};
 
+        // Destroys the ancestor chain iteratively (the default recursive destruction overflows the stack on very deep paths, e.g. DFS).
+        ~Node();
+
         // List the nodes reachable in one step from this node.
         std::vector<std::shared_ptr<Node>> expand(const std::shared_ptr<Problem>& problem);
 

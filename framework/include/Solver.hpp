@@ -9,6 +9,9 @@
 
 class Solver {
     private:
+        // cutoff node returned when using iterative deepening DFS
+        const std::shared_ptr<Node> cutoff = std::make_shared<Node>(nullptr);
+
         // Checks if the node form a cycle of length k or less 
         [[nodiscard]] bool is_cycle(const std::shared_ptr<Node>& node, int k = 30) const;
 
@@ -23,7 +26,8 @@ class Solver {
         [[nodiscard]] std::shared_ptr<Node> breadth_first_search(const std::shared_ptr<Problem>& problem, bool graph_search = true);
 
         // Solves the problem using depth first search (DFS). Returns the solution node or a null pointer if not found.
-        [[nodiscard]] std::shared_ptr<Node> depth_first_search(const std::shared_ptr<Problem>& problem, bool graph_search = false);
+        // By default, DFS is unlimited (limit = 0), but it's also possible to define a limit > 0 for the depth.
+        [[nodiscard]] std::shared_ptr<Node> depth_first_search(const std::shared_ptr<Problem>& problem, bool graph_search = false, std::size_t limit = 0);
 
         // Solves the problem using iterative deepening depth first search. Returns the solution node or a null pointer if not found.
         [[nodiscard]] std::shared_ptr<Node> iterative_deepening(const std::shared_ptr<Problem>& problem, bool graph_search = false);
@@ -32,7 +36,8 @@ class Solver {
         [[nodiscard]] std::shared_ptr<Node> uniform_cost_search(const std::shared_ptr<Problem>& problem, bool graph_search = true);
 
         // Solves the problem using A* search. Returns the solution node or a null pointer if not found.
-        [[nodiscard]] std::shared_ptr<Node> a_star(const std::shared_ptr<Problem>& problem, const std::function<double(const std::shared_ptr<Node>&)>& h, bool graph_search = true);
+        // It is also possible to modifiy the heuristic weight (weight >= 1), however this won't guarauntee optimality. 
+        [[nodiscard]] std::shared_ptr<Node> a_star(const std::shared_ptr<Problem>& problem, const std::function<double(const std::shared_ptr<Node>&)>& h, bool graph_search = true, double weight = 1);
 
         // Solves the problem using iterative-deepening A* search (IDA*). Returns the solution node or a null pointer if not found.
         [[nodiscard]] std::shared_ptr<Node> ida_star(const std::shared_ptr<Problem>& problem, const std::function<double(const std::shared_ptr<Node>&)>& h, bool graph_search = true);

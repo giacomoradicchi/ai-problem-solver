@@ -2,6 +2,14 @@
 #include <memory>
 #include <vector>
 
+Node::~Node() {
+    // take ownership of the parent and walk up while we are its only owner, so every ancestor is destroyed with a null parent (no recursion)
+    std::shared_ptr<Node> ancestor = std::move(parent);
+    while (ancestor && ancestor.use_count() == 1) {
+        ancestor = std::move(ancestor->parent);
+    }
+}
+
 std::vector<std::shared_ptr<Node>> Node::expand(const std::shared_ptr<Problem>& problem) {
     std::vector<std::shared_ptr<Node>> child_nodes;
 

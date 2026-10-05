@@ -6,6 +6,7 @@
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
+#include <iostream>
 
 #define FAILURE nullptr
 
@@ -147,7 +148,7 @@ std::shared_ptr<Node> Solver::breadth_first_search(const std::shared_ptr<Problem
     return FAILURE;
 }
 
-std::shared_ptr<Node> Solver::depth_first_search(const std::shared_ptr<Problem>& problem, bool graph_search) {
+std::shared_ptr<Node> Solver::depth_first_search(const std::shared_ptr<Problem>& problem, bool graph_search, std::size_t limit) {
 
     // init frontier
     std::stack<std::shared_ptr<Node>> frontier;
@@ -164,6 +165,8 @@ std::shared_ptr<Node> Solver::depth_first_search(const std::shared_ptr<Problem>&
     if (graph_search) {
         reached[root->get_state()] = root;
     }
+
+    std::shared_ptr<Node> result = FAILURE;
     
     while (!frontier.empty()) {
         std::shared_ptr<Node> node = frontier.top();
@@ -174,7 +177,12 @@ std::shared_ptr<Node> Solver::depth_first_search(const std::shared_ptr<Problem>&
             return node;
         }
 
-        if (is_cycle(node)) continue; // avoid cycles
+        if (limit > 0 && node->get_depth() >= limit) {
+            result = cutoff;
+            continue;
+        }
+
+        if (!graph_search && is_cycle(node)) continue; // avoid cycles
 
         // node expansion
         for (const auto& child : node->expand(problem)) {
@@ -187,9 +195,7 @@ std::shared_ptr<Node> Solver::depth_first_search(const std::shared_ptr<Problem>&
             }
 
             // graph search
-            auto existing_entry = reached.find(child_state); // returns the position of the existing node for the child_state if it exists, the end of the reached map data structure otherwise.
-            if (existing_entry == reached.end() // child_state is not in reached (existing_node associated with child_state not found) 
-            || child->get_path_cost() < existing_entry->second->get_path_cost()) { // existing_entry has first:state, second:node. in order to get the associated node, we use existing_entry->second.
+            if (reached.find(child_state) == reached.end()) { // child_state is not in reached (existing_node associated with child_state not found) 
                 reached[child_state] = child;
                 frontier.push(child);
             }
@@ -197,7 +203,7 @@ std::shared_ptr<Node> Solver::depth_first_search(const std::shared_ptr<Problem>&
 
     }
 
-    return FAILURE;
+    return result;
 }
 
 bool Solver::is_cycle(const std::shared_ptr<Node>& node, int k) const {
@@ -208,6 +214,16 @@ bool Solver::find_cycle(const std::shared_ptr<Node>& node, const std::shared_ptr
     return ancestor && k > 0 && (*ancestor->get_state() == *node->get_state() || find_cycle(node, ancestor->get_parent(), k - 1));
 }
 
+std::shared_ptr<Node> Solver::iterative_deepening(const std::shared_ptr<Problem>& problem, bool graph_search) {
+    for (std::size_t limit = 1; ; limit++) {
+        auto result = depth_first_search(problem, graph_search, limit);
+
+        if (result != cutoff) return result;  
+    }
+
+    return FAILURE;
+}
+
 std::shared_ptr<Node> Solver::uniform_cost_search(const std::shared_ptr<Problem>& problem, bool graph_search) {
     auto g = [](const std::shared_ptr<Node>& node) -> double {
         return node->get_path_cost();
@@ -216,9 +232,14 @@ std::shared_ptr<Node> Solver::uniform_cost_search(const std::shared_ptr<Problem>
     return best_first_search(problem, g, graph_search);
 }
 
-std::shared_ptr<Node> Solver::a_star(const std::shared_ptr<Problem>& problem, const std::function<double(const std::shared_ptr<Node>&)>& h, bool graph_search) {
-    auto f = [&h](const std::shared_ptr<Node>& node) -> double {
-        return node->get_path_cost() + h(node);
+std::shared_ptr<Node> Solver::a_star(const std::shared_ptr<Problem>& problem, const std::function<double(const std::shared_ptr<Node>&)>& h, bool graph_search, double weight) {
+    // by default, the weight is unitary.
+    if (weight < 1) {
+        throw std::invalid_argument("Weight has to be >= 1.");
+    }
+
+    auto f = [&h, weight](const std::shared_ptr<Node>& node) -> double {
+        return node->get_path_cost() + weight * h(node);
     };
 
     return best_first_search(problem, f, graph_search);
