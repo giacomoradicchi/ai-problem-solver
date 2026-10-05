@@ -57,12 +57,8 @@ Makefile
 install_manifest.txt
 compile_commands.json
 
-# VS Code (Ignore all internal workspace cache except shared settings/tasks)
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# VS Code (local only, not shared)
+.vscode/
 *.code-workspace
 
 # Other IDEs & Editors (CLion, Visual Studio, Xcode)
