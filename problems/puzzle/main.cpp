@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <algorithm>
 
+// NOTE: the "graphic" implementation (animation on terminal) was created by LLM.
+
 #define FRAME_DELAY_MS 500 // time between two frames of the animation (in milliseconds)
 
 // summary table layout
