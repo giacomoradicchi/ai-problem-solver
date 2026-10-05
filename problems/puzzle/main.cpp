@@ -124,7 +124,7 @@ int main() {
         7, 2, 4,
         5, 0, 6,
         8, 3, 1
-    };
+    }; 
 
     auto initial_state = std::make_shared<PuzzleState>(8, board);
     auto problem = std::make_shared<PuzzleProblem>(initial_state);

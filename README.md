@@ -27,6 +27,63 @@ An object-oriented, highly performant C++20 framework for solving classical AI s
 
 ---
 
+## Getting Started
+
+### Requirements
+
+- [CMake](https://cmake.org/download/) 3.20 or newer
+- A C++20 compiler (GCC 10+, Clang 10+, or MSVC from Visual Studio 2019 16.10+)
+
+### Download
+
+From the folder in which you want to download the repository:
+
+```bash
+git clone https://github.com/giacomoradicchi/ai-problem-solver.git
+```
+
+Or download it using [download-directory.github.io](https://download-directory.github.io) and paste `https://github.com/giacomoradicchi/ai-problem-solver.git`.
+
+### Build & Run on Linux / macOS
+
+```bash
+cd ai-problem-solver
+mkdir build && cd build
+cmake ..
+make
+cd .. && ./bin/puzzle_demo
+```
+
+### Build & Run on Windows
+
+**Option A: Visual Studio (MSVC)**
+
+Open the *Developer PowerShell for Visual Studio* (or any terminal where `cmake` is available) and run:
+
+```powershell
+cd ai-problem-solver
+mkdir build; cd build
+cmake ..
+cmake --build . --config Release
+cd ..; .\bin\Release\puzzle_demo.exe
+```
+
+> Visual Studio is a multi-configuration generator, so the executable is placed in `bin\Release\` (or `bin\Debug\` if you build with `--config Debug`).
+
+**Option B: MinGW-w64 (GCC)**
+
+Make sure `g++`, `mingw32-make` and `cmake` are on your `PATH`, then run:
+
+```powershell
+cd ai-problem-solver
+mkdir build; cd build
+cmake -G "MinGW Makefiles" ..
+mingw32-make
+cd ..; .\bin\puzzle_demo.exe
+```
+
+---
+
 ## Architecture Diagram
 
 ```mermaid
