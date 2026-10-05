@@ -2,6 +2,7 @@
 #define STATE_HPP
 
 #include <vector>
+#include <string>
 
 class State {
     public:
